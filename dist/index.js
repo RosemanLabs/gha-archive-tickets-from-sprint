@@ -9847,8 +9847,16 @@ const run = async () => {
       return statuses.includes(item.fields.status);
     });
 
+    console.log(
+      `Archiving ${filteredItems.length} items from iteration ${iteration.title} with statuses ${statuses}...`
+    );
     await Promise.all(
       filteredItems.map((item) => project.items.archive(item.id))
+    );
+    console.log(
+      `Successfully archived items ${filteredItems
+        .map((item) => item.id)
+        .join(", ")}.`
     );
   } catch (error) {
     core.setFailed(error.message);
