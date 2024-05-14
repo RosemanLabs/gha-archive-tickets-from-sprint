@@ -18,6 +18,7 @@ const run = async () => {
     });
 
     const projectData = await project.getProperties();
+    console.log(JSON.stringify(projectData, null, 2));
 
     const configuration = projectData.fields.iteration.configuration;
     const iteration =
