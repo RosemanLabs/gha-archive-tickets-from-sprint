@@ -1,9 +1,9 @@
-name: 'Move to next iteration'
-description: 'Automatically move issues to the next iteration.'
-author: 'Baptiste Lombard'
+name: "Archive items from iteration"
+description: "Automatically archive issues from last/current iteration."
+author: "Tim van Mourik"
 branding:
-  icon: 'calendar'
-  color: 'blue'
+  icon: "calendar"
+  color: "blue"
 inputs:
   owner:
     description: The account name of the GitHub organization.
@@ -20,15 +20,9 @@ inputs:
   iteration:
     description: Should be last or current.
     required: true
-  new-iteration:
-    description: Should be current or next.
-    required: true
   statuses:
     description: Statuses of the issues to move to the next iteration.
-    required: false
-  excluded-statuses:
-    description: Statuses of the issues that should not be moved. This setting takes precedence over statuses.
-    required: false
+    required: true
 runs:
-  using: 'node16'
-  main: 'dist/index.js'
+  using: "node20"
+  main: "dist/index.js"

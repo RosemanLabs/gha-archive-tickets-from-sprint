@@ -1,12 +1,12 @@
 {
-  "name": "move-to-next-iteration",
+  "name": "archive-from-iteration",
   "version": "0.1.0",
-  "description": "Automatically move issues to the next iteration.",
+  "description": "Automatically archive issues from last/current iteration.",
   "main": "dist/index.js",
   "scripts": {
     "build": "ncc build index.js"
   },
-  "author": "Baptiste Lombard",
+  "author": "Tim van Mourik",
   "license": "MIT",
   "type": "module",
   "dependencies": {
