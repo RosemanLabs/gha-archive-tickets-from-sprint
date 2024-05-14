@@ -19,13 +19,11 @@ const run = async () => {
 
     const projectData = await project.getProperties();
 
-    const lastIteration =
-      projectData.fields.iteration.configuration.completedIterations[0];
-    const currentIteration =
-      projectData.fields.iteration.configuration.iterations[0];
-
+    const configuration = projectData.fields.iteration.configuration;
     const iteration =
-      iterationType === "last" ? lastIteration : currentIteration;
+      iterationType === "last"
+        ? configuration.completedIterations[0]
+        : configuration.iterations[0];
 
     const items = await project.items.list();
 
