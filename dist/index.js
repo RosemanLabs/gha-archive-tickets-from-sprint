@@ -8238,11 +8238,13 @@ const queryProjectNodes = `
       ... on ProjectV2IterationField {
         configuration {
           iterations {
+            id
             title
             duration
             startDate
           }
           completedIterations {
+            id
             title
             duration
             startDate
@@ -8371,7 +8373,7 @@ const getProjectItemsPaginatedQuery = `
               ${queryItemFieldNodes}
             }
           }
-        } 
+        }
       }
     }
   }
@@ -8618,6 +8620,28 @@ function projectFieldsNodesToFieldsMap(state, project, nodes) {
         );
       }
 
+      // If the field is of type "Iteration", then the `configuration` property will be set.
+      if (node.configuration) {
+        acc[userInternalFieldName].optionsById = node.configuration.iterations.concat(node.configuration.completedIterations).reduce(
+          (acc, option) => {
+            return {
+              ...acc,
+              [option.id]: option.title,
+            };
+          },
+          {}
+        );
+        acc[userInternalFieldName].optionsByValue = node.configuration.iterations.concat(node.configuration.completedIterations).reduce(
+          (acc, option) => {
+            return {
+              ...acc,
+              [option.title]: option.id,
+            };
+          },
+          {}
+        );
+      }
+
       return acc;
     },
     optionalFields
@@ -8670,9 +8694,8 @@ function projectFieldValueNodeToValue(projectField, node) {
       return projectField.optionsById[node.optionId];
     case "ProjectV2ItemFieldTextValue":
       return node.text;
-    // TODO: implement iteration fields
-    // case "ProjectV2ItemFieldIterationValue":
-    // return null;
+      case "ProjectV2ItemFieldIterationValue":
+      return node.title;
   }
 }
 
@@ -8980,7 +9003,7 @@ function getFieldsUpdateQueryAndFields(state, fields) {
     .map(([key, value], index) => {
       if (value === undefined) return;
       const field = state.fields[key];
-      const alias = key.replace(/[^\w\d]/g, "");
+      const alias = key.replace(/\s+/g, "");
       // @ts-expect-error - `field.id` is not set if field does not exist on projects, but we know it exists here
       const fieldId = field.id;
       // only retrieve the updated node once
