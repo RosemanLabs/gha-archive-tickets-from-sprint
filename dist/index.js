@@ -8622,6 +8622,8 @@ function projectFieldsNodesToFieldsMap(state, project, nodes) {
 
       // If the field is of type "Iteration", then the `configuration` property will be set.
       if (node.configuration) {
+        acc[userInternalFieldName].configuration = node.configuration;
+      
         acc[userInternalFieldName].optionsById = node.configuration.iterations.concat(node.configuration.completedIterations).reduce(
           (acc, option) => {
             return {
@@ -9802,6 +9804,7 @@ function projectNodeToProperties(state) {
     id: state.id,
     title: state.title,
     url: state.url,
+    fields: state.fields,
   };
 }
 
